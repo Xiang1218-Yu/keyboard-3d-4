@@ -26,9 +26,7 @@ const createKey = (
 
 const generate60Layout = (): KeyConfig[] => {
   const keys: KeyConfig[] = [];
-  const kw = 1;
   const kh = 1;
-  const gap = 0.05;
 
   const row0 = [
     { label: 'Esc', x: 0, w: 1, zone: 'function' as KeyZone, code: 'Escape' },
@@ -407,7 +405,7 @@ export const LAYOUT_CONFIGS: Record<LayoutType, LayoutConfig> = {
     type: '60%',
     name: '60% 紧凑型',
     description: '最小化设计，仅保留核心按键，适合追求简洁的用户',
-    keys: generate60Layout(),
+    keys: structuredClone(generate60Layout()),
     width: 15.6,
     height: 5.6,
   },
@@ -415,7 +413,7 @@ export const LAYOUT_CONFIGS: Record<LayoutType, LayoutConfig> = {
     type: '65%',
     name: '65% 紧凑+',
     description: '在60%基础上增加方向键和导航键，平衡便携与功能',
-    keys: generate65Layout(),
+    keys: structuredClone(generate65Layout()),
     width: 16.75,
     height: 6.7,
   },
@@ -423,7 +421,7 @@ export const LAYOUT_CONFIGS: Record<LayoutType, LayoutConfig> = {
     type: '75%',
     name: '75% 功能型',
     description: '包含完整功能键行，紧凑布局适合小桌面',
-    keys: generate75Layout(),
+    keys: structuredClone(generate75Layout()),
     width: 16.95,
     height: 7.8,
   },
@@ -431,7 +429,7 @@ export const LAYOUT_CONFIGS: Record<LayoutType, LayoutConfig> = {
     type: 'TKL',
     name: 'TKL 87键',
     description: '无数字键盘的经典布局，保留完整功能区和导航区',
-    keys: generateTKLLayout(),
+    keys: structuredClone(generateTKLLayout()),
     width: 19.3,
     height: 6.7,
   },
@@ -439,7 +437,7 @@ export const LAYOUT_CONFIGS: Record<LayoutType, LayoutConfig> = {
     type: 'Full',
     name: '全尺寸 104键',
     description: '完整键盘布局，包含数字小键盘，适合数据输入',
-    keys: generateFullLayout(),
+    keys: structuredClone(generateFullLayout()),
     width: 24.0,
     height: 6.7,
   },

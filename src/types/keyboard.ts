@@ -47,10 +47,32 @@ export interface ZoneConfig {
   defaultColor: string;
 }
 
+export type BacklightEffect =
+  | 'static'
+  | 'breathing'
+  | 'rainbow'
+  | 'wave'
+  | 'reactive'
+  | 'marquee';
+
+export type BacklightColorMode = 'zones' | 'custom';
+
+export interface BacklightSettings {
+  enabled: boolean;
+  brightness: number;
+  effect: BacklightEffect;
+  speed: number;
+  bloomIntensity: number;
+  colorMode: BacklightColorMode;
+  zoneColors: Record<KeyZone, string>;
+  customColor: string;
+}
+
 export interface KeyboardState {
   layout: LayoutType;
   caseMaterial: CaseMaterial;
   zoneColors: Record<KeyZone, string>;
+  backlight: BacklightSettings;
   pressedKeys: Set<string>;
 }
 
@@ -61,4 +83,7 @@ export interface KeyboardActions {
   pressKey: (keyId: string) => void;
   releaseKey: (keyId: string) => void;
   resetColors: () => void;
+  setBacklight: (patch: Partial<BacklightSettings>) => void;
+  setBacklightZoneColor: (zone: KeyZone, color: string) => void;
+  resetBacklightColors: () => void;
 }

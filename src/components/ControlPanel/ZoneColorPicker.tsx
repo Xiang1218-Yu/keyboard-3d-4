@@ -1,5 +1,4 @@
 import { Palette, RotateCcw } from 'lucide-react';
-import { useState } from 'react';
 import { useZoneColors } from '@/store/useKeyboardStore';
 import { useKeyboardStore } from '@/store/useKeyboardStore';
 import { ZONE_LIST, ZONE_CONFIGS } from '@/data/zones';
@@ -15,7 +14,6 @@ export function ZoneColorPicker({ selectedZone, onZoneChange }: ZoneColorPickerP
   const zoneColors = useZoneColors();
   const setZoneColor = useKeyboardStore((state) => state.setZoneColor);
   const resetColors = useKeyboardStore((state) => state.resetColors);
-  const [customColor, setCustomColor] = useState('#3b82f6');
 
   const handleColorSelect = (color: string) => {
     if (selectedZone) {
@@ -25,7 +23,6 @@ export function ZoneColorPicker({ selectedZone, onZoneChange }: ZoneColorPickerP
 
   const handleCustomColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const color = e.target.value;
-    setCustomColor(color);
     if (selectedZone) {
       setZoneColor(selectedZone, color);
     }
