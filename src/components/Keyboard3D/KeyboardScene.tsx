@@ -5,7 +5,8 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { Lights } from './Lights';
 import { KeyboardCase } from './KeyboardCase';
 import { KeyCap } from './KeyCap';
-import { useLayout } from '@/store/useKeyboardStore';
+import { Backlight } from './Backlight';
+import { useLayout, useKeyboardStore } from '@/store/useKeyboardStore';
 import { LAYOUT_CONFIGS } from '@/data/layouts';
 import { KeyZone } from '@/types/keyboard';
 import * as THREE from 'three';
@@ -40,6 +41,7 @@ function KeyboardContent({ selectedZone }: KeyboardContentProps) {
       <KeyboardCase />
       <group position={[-layoutConfig.width / 2, 0.35, -layoutConfig.height / 2]}>
         {keys}
+        <Backlight />
       </group>
     </group>
   );
@@ -50,6 +52,8 @@ interface KeyboardSceneProps {
 }
 
 export function KeyboardScene({ selectedZone }: KeyboardSceneProps) {
+  const bloomIntensity = useKeyboardStore((state) => state.backlight.bloomIntensity);
+
   return (
     <Canvas
       shadows
@@ -59,10 +63,10 @@ export function KeyboardScene({ selectedZone }: KeyboardSceneProps) {
     >
       <color attach="background" args={['#0a0a0f']} />
       <fog attach="fog" args={['#0a0a0f', 15, 35]} />
-      
+
       <Lights />
       <KeyboardContent selectedZone={selectedZone} />
-      
+
       <OrbitControls
         enableDamping
         dampingFactor={0.05}
@@ -73,13 +77,13 @@ export function KeyboardScene({ selectedZone }: KeyboardSceneProps) {
         enablePan={true}
         target={[0, 0, 0]}
       />
-      
+
       <EffectComposer>
         <Bloom
           luminanceThreshold={0.2}
           luminanceSmoothing={0.9}
           height={300}
-          intensity={0.5}
+          intensity={bloomIntensity}
         />
       </EffectComposer>
     </Canvas>

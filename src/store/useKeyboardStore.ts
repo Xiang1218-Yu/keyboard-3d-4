@@ -1,6 +1,14 @@
 import { create } from 'zustand';
-import { KeyboardState, KeyboardActions, LayoutType, CaseMaterial, KeyZone } from '@/types/keyboard';
+import {
+  KeyboardState,
+  KeyboardActions,
+  LayoutType,
+  CaseMaterial,
+  KeyZone,
+  BacklightEffect,
+} from '@/types/keyboard';
 import { DEFAULT_ZONE_COLORS } from '@/data/zones';
+import { DEFAULT_BACKLIGHT } from '@/data/backlight';
 
 interface KeyboardStore extends KeyboardState, KeyboardActions {}
 
@@ -9,6 +17,7 @@ export const useKeyboardStore = create<KeyboardStore>((set) => ({
   caseMaterial: 'aluminum',
   zoneColors: { ...DEFAULT_ZONE_COLORS },
   pressedKeys: new Set<string>(),
+  backlight: { ...DEFAULT_BACKLIGHT },
 
   setLayout: (layout: LayoutType) => {
     set({ layout });
@@ -46,6 +55,55 @@ export const useKeyboardStore = create<KeyboardStore>((set) => ({
   resetColors: () => {
     set({ zoneColors: { ...DEFAULT_ZONE_COLORS } });
   },
+
+  setBacklightEnabled: (enabled: boolean) => {
+    set((state) => ({
+      backlight: { ...state.backlight, enabled },
+    }));
+  },
+
+  setBacklightBrightness: (brightness: number) => {
+    set((state) => ({
+      backlight: { ...state.backlight, brightness },
+    }));
+  },
+
+  setBacklightEffect: (effect: BacklightEffect) => {
+    set((state) => ({
+      backlight: { ...state.backlight, effect },
+    }));
+  },
+
+  setBacklightSpeed: (speed: number) => {
+    set((state) => ({
+      backlight: { ...state.backlight, speed },
+    }));
+  },
+
+  setBloomIntensity: (bloomIntensity: number) => {
+    set((state) => ({
+      backlight: { ...state.backlight, bloomIntensity },
+    }));
+  },
+
+  setBacklightZoneColor: (zone: KeyZone, color: string) => {
+    set((state) => ({
+      backlight: {
+        ...state.backlight,
+        zoneColors: { ...state.backlight.zoneColors, [zone]: color },
+      },
+    }));
+  },
+
+  syncBacklightColors: () => {
+    set((state) => ({
+      backlight: { ...state.backlight, zoneColors: { ...state.zoneColors } },
+    }));
+  },
+
+  resetBacklight: () => {
+    set({ backlight: { ...DEFAULT_BACKLIGHT } });
+  },
 }));
 
 export const useLayout = () => useKeyboardStore((state) => state.layout);
@@ -54,3 +112,4 @@ export const useZoneColors = () => useKeyboardStore((state) => state.zoneColors)
 export const usePressedKeys = () => useKeyboardStore((state) => state.pressedKeys);
 export const useIsKeyPressed = (keyId: string) =>
   useKeyboardStore((state) => state.pressedKeys.has(keyId));
+export const useBacklight = () => useKeyboardStore((state) => state.backlight);

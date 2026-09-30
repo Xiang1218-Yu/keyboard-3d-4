@@ -10,6 +10,23 @@ export type KeyZone =
 
 export type CaseMaterial = 'aluminum' | 'plastic' | 'wood' | 'carbon';
 
+export type BacklightEffect =
+  | 'static'
+  | 'breathing'
+  | 'rainbow'
+  | 'wave'
+  | 'reactive'
+  | 'marquee';
+
+export interface BacklightConfig {
+  enabled: boolean;
+  brightness: number;
+  effect: BacklightEffect;
+  speed: number;
+  bloomIntensity: number;
+  zoneColors: Record<KeyZone, string>;
+}
+
 export interface KeyConfig {
   id: string;
   label: string;
@@ -52,6 +69,7 @@ export interface KeyboardState {
   caseMaterial: CaseMaterial;
   zoneColors: Record<KeyZone, string>;
   pressedKeys: Set<string>;
+  backlight: BacklightConfig;
 }
 
 export interface KeyboardActions {
@@ -61,4 +79,12 @@ export interface KeyboardActions {
   pressKey: (keyId: string) => void;
   releaseKey: (keyId: string) => void;
   resetColors: () => void;
+  setBacklightEnabled: (enabled: boolean) => void;
+  setBacklightBrightness: (brightness: number) => void;
+  setBacklightEffect: (effect: BacklightEffect) => void;
+  setBacklightSpeed: (speed: number) => void;
+  setBloomIntensity: (intensity: number) => void;
+  setBacklightZoneColor: (zone: KeyZone, color: string) => void;
+  syncBacklightColors: () => void;
+  resetBacklight: () => void;
 }
